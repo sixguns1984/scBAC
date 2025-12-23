@@ -194,12 +194,6 @@ scbac/
 │   │   └── transformer_model.py   # Transformer model definition
 │   ├── cli.py                     # Command-line interface
 │   └── install_models.py          # Model installation script
-├── examples/
-│   ├── basic_usage.py             # Basic usage examples
-│   └── advanced_analysis.py       # Advanced analysis examples
-├── tests/
-│   ├── test_predictor.py          # Unit tests
-│   └── test_analysis.py           # Analysis tests
 ├── setup.py                       # Installation configuration
 ├── requirements.txt               # Dependencies
 ├── LICENSE                        # MIT License
