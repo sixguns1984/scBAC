@@ -26,7 +26,7 @@ pip install scbac
 
 ### Development Version
 ```bash
-git clone https://github.com/yourusername/scBACs.git
+git clone https://github.com/sixguns1984/scBACs.git
 cd scBACs
 pip install -e .
 ```
