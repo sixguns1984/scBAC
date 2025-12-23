@@ -1,136 +1,68 @@
-scBACs - Single Cell Brain Age Calculator
-<div align="center">
-https://img.shields.io/badge/python-3.7%252B-blue
-https://img.shields.io/badge/license-MIT-green
-https://img.shields.io/badge/status-active-success
-https://img.shields.io/badge/DOI-TBD-orange
+# scBACs - Single Cell Brain Age Clocks
 
-A deep learning tool for predicting brain cell age from single-cell RNA-seq data
+[![Python](https://img.shields.io/badge/python-3.7%2B-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+[![Status](https://img.shields.io/badge/status-active-success)]()
+[![DOI](https://img.shields.io/badge/DOI-TBD-orange)]()
 
-Quick Start | Installation | Documentation | Examples | Contact
+> A deep learning tool for predicting brain cell age from single-cell RNA-seq data
 
-</div>
-✨ Key Features
-🔬 Multi-cell type support: Predict ages for 13 major brain cell types
+## ✨ Key Features
 
-🧠 Deep learning models: Integrated MLP and Transformer architectures
+- **🔬 Multi-cell type support:** Predict ages for 13 major brain cell types
+- **🧠 Deep learning models:** Integrated MLP and Transformer architectures
+- **📊 Advanced analysis:** Relative age aceleration calculation and age at aging acceleration onset detection
+- **🎨 Professional visualizations
+- **⚡ Efficient computation:** CPU/GPU support and parallel processing
+- **🔄 Easy model management:** One-click pre-trained model downloads
+- **💻 Command-line interface:** User-friendly CLI for all functions
 
-📊 Advanced analysis: Age gap calculation and senescence turning point detection
+## 📦 Installation
 
-🎨 Professional visualizations: Nature journal-style plots
-
-⚡ Efficient computation: CPU/GPU support and parallel processing
-
-🔄 Easy model management: One-click pre-trained model downloads
-
-💻 Command-line interface: User-friendly CLI for all functions
-
-📦 Installation
-Basic Installation
-bash
+### Basic Installation
+```bash
 pip install scbac
-Complete Installation (with analysis module)
-bash
-pip install "scbac[analysis]"
-Development Version
-bash
+```
+
+### Development Version
+```bash
 git clone https://github.com/yourusername/scBACs.git
 cd scBACs
 pip install -e .
-Download Pre-trained Models
+```
+## Download Pre-trained Models
 After installation, download the pre-trained models:
 
-bash
+```bash
 scbac-install-models --cell-type all
-🚀 Quick Start
-1. Predict Cell Ages from scRNA-seq Data
-python
-import scanpy as sc
-from scbac import predict_cell_age
-
-# Load your single-cell data
-adata = sc.read_h5ad("your_data.h5ad")
-
-# Predict cell ages
-results = predict_cell_age(
-    adata,
-    cell_type_column='celltypist',  # Column name for cell type annotations
-    count_layer='counts',           # Layer containing raw counts
-    device='cpu'                    # Use 'cuda' for GPU acceleration
-)
-
-# Results are stored in adata.obs
-adata.obs['predicted_age'] = results['cell_ages']
-adata.write("results_with_ages.h5ad")
-2. Analyze Age Gap and Turning Points
-python
-import pandas as pd
-from scbac import calculate_donor_celltype_age_gap, age_gap_turning_point_analysis
-
-# Load your data with predicted ages
-df = pd.read_csv("predicted_ages.csv")
-
-# Calculate age gap (residuals from cell-type specific models)
-df_with_gap = calculate_donor_celltype_age_gap(
-    df,
-    donor_id_col='PaticipantID_unique',
-    celltype_col='celltype',
-    age_pred_col='age_pred',
-    age_death_col='Age_at_death',
-    sex_col='Sex'
-)
-
-# Analyze turning points in aging trajectories
-results = age_gap_turning_point_analysis(
-    df_with_gap,
-    disease_name='AD',              # Disease group to analyze
-    status_col='status',            # Column with disease/control status
-    save_prefix='AD_analysis'       # Prefix for output files
-)
-
-# View results
-print("Cell type aging sequence:")
-print(results['analysis_results']['celltype_stats'])
-📊 Supported Cell Types
-scBACs includes pre-trained models for 13 brain cell types:
-
-Cell Type	Abbreviation	Model Type
-Astrocytes	Ast	MLP
-Endothelial cells	End	Transformer
-Excitatory neurons	Exc	Transformer
-Inhibitory neurons	Inh	Transformer
-Oligodendrocytes	Oli	Transformer
-Oligodendrocyte progenitor cells	OPC	Transformer
-Pericytes	Per	Transformer
-Microglia	Mic	MLP
-Choroid plexus/ependymal cells	CAM	MLP
-Fibroblasts	Fib	Transformer
-Mural cells	Mural	Transformer
-Smooth muscle cells	SMC	Transformer
-T cells	Tcell	Transformer
-🛠️ Command Line Interface
-Predict Cell Ages
-bash
+```
+## 🚀 Quick Start
+### Predict Cell Ages from scRNA-seq Data
+```bash
 scbac predict \
     --input input_data.h5ad \
     --output results.h5ad \
     --cell-type-column celltype \
     --count-layer counts \
     --device cpu
-Analyze Age Gap Turning Points
-bash
+```
+
+### Analyze cellular level of relative age acceleration (RAA) and cell-type-specific individual age at aging acceleration onset
+```bash
 scbac analyze \
     --input predicted_ages.csv \
     --output-prefix analysis_results \
     --disease-name AD \
     --status-col status \
+    --cell-age-pred-col age_pred \
+    --chronological-age-col Age_at_death \
+    --sex-col Sex \    
     --donor-col PaticipantID_unique \
     --celltype-col celltype
-Model Management
-bash
-# Interactive model installation
-scbac-install-models
-
+    
+```
+## Pre-trained model management
+```
 # Install all models
 scbac-install-models --cell-type all
 
@@ -139,82 +71,37 @@ scbac-install-models --force-download
 
 # List installed models
 scbac-install-models --list-models
-📈 Output Files
-Prediction Output
-predicted_age column added to AnnData.obs
+```
 
-Full observation DataFrame with predictions
+## 📊 Supported Cell Types
+scBACs includes pre-trained models for 13 brain cell types:
 
-Analysis Output
-age_gap: Calculated age gap (residuals)
+| Cell Type | Abbreviation |
+|-----------|--------------|
+| Astrocytes | Ast |
+| Endothelial cells | End |
+| Excitatory neurons | Exc |
+| Inhibitory neurons | Inh |
+| Oligodendrocytes | Oli |
+| Oligodendrocyte progenitor cells | OPC |
+| Pericytes | Per |
+| Microglia | Mic |
+| CNS associated macrophage | CAM |
+| Fibroblasts | Fib |
+| Mural cells | Mural |
+| Smooth muscle cells | SMC |
+| T cells | Tcell |
 
-threshold_age: Senescence turning point age
 
-positive_ratio: Proportion of cells with positive age gap
+## 📋 Data Requirements
+### For Age Prediction (AnnData Input)
+Cell type annotations: in adata.obs column (specified by --cell-type-column)
 
-Statistical analysis results (ANOVA, pairwise comparisons)
+Raw counts: in a layer (default: 'counts')
 
-High-quality publication-ready figures
+Normalized and scaled data: optional, will be processed if needed
 
-🎨 Visualizations
-scBACs generates comprehensive visualizations:
-
-Individual Donor Curves: Age gap vs. predicted age for each donor
-
-Cell Type Comparisons: Aging thresholds across cell types
-
-Heatmap Clustering: Donor-level aging patterns
-
-Statistical Significance: Pairwise differences between cell types
-
-Positive Ratio Analysis: Proportion of aged cells per donor
-
-🔬 Advanced Usage
-Custom Model Directory
-python
-from scbac import predict_cell_age
-
-results = predict_cell_age(
-    adata,
-    model_directory="/path/to/custom/models",
-    device='cuda'  # Use GPU acceleration
-)
-Batch Processing
-python
-# Process multiple datasets
-from joblib import Parallel, delayed
-
-def process_dataset(dataset_path):
-    adata = sc.read_h5ad(dataset_path)
-    results = predict_cell_age(adata)
-    return results
-
-# Parallel processing
-dataset_paths = ["data1.h5ad", "data2.h5ad", "data3.h5ad"]
-all_results = Parallel(n_jobs=3)(delayed(process_dataset)(path) for path in dataset_paths)
-Custom Analysis Parameters
-python
-from scbac import fast_calculate_donor_curve_thresholds, analyze_threshold_differences
-
-# Custom threshold calculation
-threshold_df, curve_data = fast_calculate_donor_curve_thresholds(
-    df,
-    disease_name='AD',
-    min_cells=15,      # Minimum cells per donor-celltype
-    n_points=200       # Resolution of smooth curves
-)
-
-# Custom statistical analysis
-analysis_results = analyze_threshold_differences(threshold_df)
-📋 Data Requirements
-For Age Prediction (AnnData Input)
-Cell type annotations in adata.obs
-
-Raw counts in a layer (default: 'counts')
-
-Normalized and scaled data (optional, will be processed if needed)
-
-For Age Gap Analysis (DataFrame Input)
+### For cell predicted age at aging acceleration onset (CSV Input)
 Required columns:
 
 predicted_age: Predicted cell ages
@@ -228,88 +115,74 @@ Age_at_death: Age at death
 Sex: Sex (Male/Female or encoded values)
 
 status: Disease status (e.g., 'AD', 'CT', 'ALS', etc.)
+## 📈 Output Files
+### Prediction Output
+predicted_age column added to AnnData.obs
 
-📚 Tutorials and Examples
-Example 1: Basic Age Prediction Pipeline
-python
-import scanpy as sc
-from scbac import predict_cell_age, preprocess_data
+Full observation DataFrame with predictions
 
-# Load and preprocess data
-adata = sc.read_h5ad("brain_data.h5ad")
-adata = preprocess_data(adata, normalize=True, scale=True)
+Analysis Output
+age_gap: Calculated age gap (residuals)
 
-# Predict ages
-results = predict_cell_age(adata)
+threshold_age: Aging acceleration turning point cell predicted age
 
-# Save results
-adata.obs['cell_age'] = results['cell_ages']
-sc.pl.umap(adata, color=['celltype', 'cell_age'], save='_cell_age_umap.pdf')
-Example 2: Complete Aging Analysis Workflow
-python
-import pandas as pd
-import matplotlib.pyplot as plt
-from scbac import (
-    calculate_donor_celltype_age_gap,
-    age_gap_turning_point_analysis,
-    analyze_age_gap_ratio
-)
+positive_ratio: Proportion of cells with positive age gap
 
-# Load your data
-meta_data = pd.read_csv("brain_metadata.csv")
+Statistical analysis results (ANOVA, pairwise comparisons)
 
-# Calculate age gap
-df_with_gap = calculate_donor_celltype_age_gap(meta_data)
+High-quality publication-ready figures
 
-# Analyze a specific disease
-ad_results = age_gap_turning_point_analysis(
-    df_with_gap,
-    disease_name='AD',
-    save_prefix='AD_results'
-)
+### 🎨 Visualizations
+scBACs generates comprehensive visualizations:
 
-# Analyze positive age gap ratio
-ratio_results = analyze_age_gap_ratio(
-    df_with_gap[df_with_gap['status'] == 'AD']
-)
+Individual Donor Curves: Age gap vs. predicted age for each donor
 
-# Correlate with clinical scores
-clinical_data = pd.read_csv("clinical_scores.csv")
-merged_data = pd.merge(ratio_results, clinical_data, on='PaticipantID_unique')
+Cell Type Comparisons: Aging thresholds across cell types
 
-# Plot correlation
-plt.figure(figsize=(8, 6))
-plt.scatter(merged_data['positive_ratio'], merged_data['MMSE'], alpha=0.7)
-plt.xlabel('Positive Age Gap Ratio')
-plt.ylabel('MMSE Score')
-plt.title('Cognitive Function vs. Cellular Aging')
-plt.savefig('correlation_plot.pdf', dpi=300, bbox_inches='tight')
-🧪 Testing with Sample Data
-To test scBACs with sample data:
+Heatmap Clustering: Donor-level aging patterns
 
-python
-import numpy as np
-import pandas as pd
-from scbac import calculate_donor_celltype_age_gap
+Statistical Significance: Pairwise differences between cell types
 
-# Generate sample data
-np.random.seed(42)
-n_cells = 1000
+Positive Ratio Analysis: Proportion of aged cells per donor
 
-sample_data = pd.DataFrame({
-    'PaticipantID_unique': np.random.choice(['Donor1', 'Donor2', 'Donor3', 'Donor4'], n_cells),
-    'celltype': np.random.choice(['Ast', 'End', 'Exc', 'Inh', 'Oli'], n_cells),
-    'age_pred': np.random.normal(60, 10, n_cells),
-    'Age_at_death': np.random.choice([65, 70, 75, 80], n_cells),
-    'Sex': np.random.choice(['Male', 'Female'], n_cells),
-    'status': np.random.choice(['AD', 'CT'], n_cells, p=[0.6, 0.4])
-})
-
-# Test age gap calculation
-df_with_gap = calculate_donor_celltype_age_gap(sample_data)
-print(f"Age gap range: {df_with_gap['age_gap'].min():.2f} to {df_with_gap['age_gap'].max():.2f}")
-🏗️ Project Structure
-text
+### 🔬 Command Line Options
+predict command
+```bash
+scbac predict
+  --input INPUT          Input .h5ad file
+  --output OUTPUT        Output .h5ad file
+  --cell-type-column CELL_TYPE_COLUMN
+                        Column name for cell type annotations
+  --count-layer COUNT_LAYER
+                        Layer containing raw counts (default: 'counts')
+  --device DEVICE        Compute device: 'cpu' or 'cuda' (default: 'cpu')
+  --model-dir MODEL_DIR  Pre-trained model directory (optional)
+  
+```
+analyze command
+```bash
+scbac analyze
+  --input INPUT          Input CSV file with predicted ages
+  --output-prefix OUTPUT_PREFIX
+                        Prefix for output files
+  --disease-name DISEASE_NAME
+                        Disease group to analyze (e.g., 'AD')
+  --status-col STATUS_COL
+                        Column with disease/control status
+  --cell-age-pred-col CELL_AGE_PREDICTED
+                                   Column with predicted cell age
+  --chronological-age-col CHRONOLOGICAL_AGE 
+                                           Column with chronological age
+  --sex-col SEX_COL Column with Sex
+                             
+  --donor-col DONOR_COL  Column with donor IDs
+  --celltype-col CELLTYPE_COL
+                        Column with cell type annotations
+ ```
+ 
+  
+## 🏗️ Project Structure
+```bash 
 scbac/
 ├── scbac/
 │   ├── __init__.py                 # Package initialization
@@ -331,18 +204,36 @@ scbac/
 ├── requirements.txt               # Dependencies
 ├── LICENSE                        # MIT License
 └── README.md                      # This file
-📄 Citation
+
+```
+## 📚 Tutorial
+See tutorial.py for Python code examples including:
+
+Basic age prediction pipeline
+
+Complete aging analysis workflow
+
+Custom model usage
+
+Batch processing examples
+
+Visualization examples
+
+
+## 📄 Citation
 If you use scBACs in your research, please cite:
 
-bibtex
-@software{scBACs2024,
-  author = {Luo, Jianfeng},
-  title = {scBACs: Single Cell Brain Age Calculator},
-  year = {2024},
+```
+@software{scBACs2025,
+  author = {Luo, Jianfeng; Liu, Ganqiang; Tang Yamei},
+  title = {scBACs: Single Cell Brain Age Clocks},
+  year = {2025},
   publisher = {GitHub},
-  url = {https://github.com/yourusername/scBACs}
+  url = {https://github.com/sixguns1984/scBACs}
 }
-🤝 Contributing
+```
+
+## 🤝 Contributing
 We welcome contributions! Here's how to get started:
 
 Fork the repository
@@ -355,30 +246,18 @@ Push to the branch: git push origin feature/AmazingFeature
 
 Open a Pull Request
 
-Development Setup
-bash
-# Clone and setup
-git clone https://github.com/yourusername/scBACs.git
-cd scBACs
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install in development mode
-pip install -e .[dev]
-
-# Run tests
-pytest tests/
 📞 Contact
 Issues: GitHub Issues
 
 Email: luojf35@mail.sysu.edu.cn
+Email: liugq3@mail.sysu.edu.cn
+Email: tangym@mail.sysu.edu.cn
 
-Lab Website: TBD
-
-⚖️ License
+## ⚖️ License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-🙏 Acknowledgments
+## 🙏 Acknowledgments
 Thanks to all contributors and testers
 
 Computational resources provided by Sun Yat-sen University
@@ -386,3 +265,5 @@ Computational resources provided by Sun Yat-sen University
 Open-source community for tools and libraries
 
 <div align="center"> <strong>scBACs: Unraveling cellular aging dynamics in the human brain</strong> </div>
+
+
