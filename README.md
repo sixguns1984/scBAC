@@ -28,7 +28,7 @@ pip install scbac
 ```bash
 git clone https://github.com/sixguns1984/scBACs.git
 cd scBACs
-pip install -e .
+pip install scbac-0.1.0-py3-none-any.whl
 ```
 ## Download Pre-trained Models
 After installation, download the pre-trained models:
