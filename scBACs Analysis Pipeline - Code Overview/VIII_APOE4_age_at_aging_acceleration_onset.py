@@ -8,8 +8,8 @@ Purpose:
 - Perform discovery and replication analyses for validation
 
 APOE Genotype encoding:
-- APOE4 carriers: E3/E4, E2/E4, E4/E4 → encoded as 1
-- APOE4 non-carriers: E2/E3, E3/E3, E2/E2 → encoded as 0
+- APOE4 carriers: E3/E4, E2/E4, E4/E4 → encoded as Y
+- APOE4 non-carriers: E2/E3, E3/E3, E2/E2 → encoded as N
 
 Cell types analyzed:
 - Ast (Astrocytes)
