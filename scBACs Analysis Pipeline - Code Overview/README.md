@@ -68,7 +68,7 @@ This directory contains 10 analysis scripts (I-X) for the scBACs (single-cell Br
 
 **Outputs**:
 - Trained brain age prediction models (`.pth` files)
-- Model evaluation metrics (Spearman R, MAE, R²)
+- Model evaluation metrics (Spearman R, MAE)
 - Cellular biological age-associated gene lists
 
 ---
